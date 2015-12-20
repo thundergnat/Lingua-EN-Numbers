@@ -3,11 +3,11 @@ use v6;
 
 unit module Lingua::EN::Numbers::Cardinal;
 
-constant @I = <zero one    two    three    four     five    six     seven     eight    nine
+my @I = <zero one    two    three    four     five    six     seven     eight    nine
                ten  eleven twelve thirteen fourteen fifteen sixteen seventeen eighteen nineteen>;
-constant @X = <0    X      twenty thirty   forty    fifty   sixty   seventy   eighty   ninety>;
-constant @C = @I »~» ' hundred';
-constant @M = (<0 thousand>,
+my @X = <0    X      twenty thirty   forty    fifty   sixty   seventy   eighty   ninety>;
+my @C = @I »~» ' hundred';
+my @M = (<0 thousand>,
     ((<m b tr quadr quint sext sept oct non>,
     (map { ('', <un duo tre quattuor quin sex septen octo novem>).flat X~ $_ },
     <dec vigint trigint quadragint quinquagint sexagint septuagint octogint nonagint>),
