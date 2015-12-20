@@ -6,7 +6,7 @@ unit module Lingua::EN::Numbers::Cardinal;
 constant @I = <zero one    two    three    four     five    six     seven     eight    nine
                ten  eleven twelve thirteen fourteen fifteen sixteen seventeen eighteen nineteen>;
 constant @X = <0    X      twenty thirty   forty    fifty   sixty   seventy   eighty   ninety>;
-constant @C = @I X~ ' hundred';
+constant @C = @I »~» ' hundred';
 constant @M = (<0 thousand>,
     ((<m b tr quadr quint sext sept oct non>,
     (map { ('', <un duo tre quattuor quin sex septen octo novem>).flat X~ $_ },
