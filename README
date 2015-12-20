@@ -14,7 +14,7 @@ Convert integer numbers to their cardinal representation.
 DESCRIPTION
 
 Returns cardinal representations of integers following the American
-English, long scale convention. The word "and" is only used to signify
+English, short scale convention. The word "and" is only used to signify
 fractional portions of a number. Since cardinal does not (yet) support
 fractional numbers, "and" will not ever be inserted.
 
