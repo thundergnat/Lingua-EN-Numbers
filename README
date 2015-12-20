@@ -16,14 +16,14 @@ DESCRIPTION
 Returns cardinal representations of integers following the American
 English, short scale convention. The word "and" is only used to signify
 fractional portions of a number. Since cardinal does not (yet) support
-fractional numbers, "and" will not ever be inserted.
+fractional numbers, "and" will not be inserted.
 
 See also L<https://en.wikipedia.org/wiki/Long_and_short_scales>
 
 Exports subs cardinal() and cardinal-year().
 
 cardinal() converts an integer or something that can be converted to
-an integer to it cardinal representation.
+an integer to its cardinal representation.
 
 Recognizes integer numbers from:
 -9999999999999999999999999999999999999999999999999999999999999999999999999999
@@ -101,7 +101,7 @@ nine hundred ninety nine thousand, nine hundred ninety nine
 Should cover most uses.
 
 cardinal-year() converts integers from 100 to 9999 to the common American
-English  convention.
+English convention.
 2015 -> twenty-fifteen.
 1984 -> nineteen-eighty-four.
 Even millenniums are returned as thousands: 2000 -> two-thousand.
