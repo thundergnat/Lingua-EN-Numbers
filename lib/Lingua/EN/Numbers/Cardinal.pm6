@@ -1,7 +1,7 @@
 
 use v6;
 
-unit module Lingua::EN::Numbers::Cardinal:ver<0.2.0>;
+unit module Cardinal:ver<0.2.1>;
 
 # Arrays probably should be constants but constant arrays and pre-comp
 # don't get along very well right now.
@@ -17,7 +17,7 @@ my @M = (<0 thousand>,
 
 my @d = < 0     first    second    third      fourth     fifth     sixth     seventh     eighth     ninth
           tenth eleventh twelfth   thirteenth fourteenth fifteenth sixteenth seventeenth eighteenth nineteenth >;
-my @t = < 0     10       twentieth thirtieth  fortieth   fiftieth  sixtieth  seventieth  eightieth  ninetieth >;
+my @t = < ''    ''       twentieth thirtieth  fortieth   fiftieth  sixtieth  seventieth  eightieth  ninetieth >;
 
 sub cardinal ($rat is copy, :$separator = ' ', :$common, :$improper ) is export {
     if $rat.substr(0,1) eq '-' {
@@ -85,7 +85,7 @@ sub cardinal ($rat is copy, :$separator = ' ', :$common, :$improper ) is export 
                 } else {
                     if $cen > 19 {
                         my $ten = $cen.substr(0,1) * 10;
-                        $s ~= cardinal-int($ten) ~ ' ' if +$ten;
+                        $s ~= cardinal-int($ten) ~ '-' if +$ten;
                         $s ~=  @d[$cen.substr(*-1)];
                     } else {
                         $s ~=  @d[$cen];
@@ -97,8 +97,8 @@ sub cardinal ($rat is copy, :$separator = ' ', :$common, :$improper ) is export 
                 if $cen %% 10 {
                     $s ~=  @t[$cen / 10]
                 } else {
-                    $s ~= cardinal-int($cen.substr(0,1) * 10)
-                    ~ ' ' ~ @d[$cen.substr(*-1)];
+                    $s ~= cardinal-int((+$cen).substr(0,1) * 10)
+                    ~ '-' ~ @d[$cen.substr(*-1)];
                 }
             }
         } else { # add suffix for denominator with 000 for last three digits
@@ -110,7 +110,7 @@ sub cardinal ($rat is copy, :$separator = ' ', :$common, :$improper ) is export 
     }
 }
 
-sub cardinal-int (Int $int) {
+sub cardinal-int ($int) {
     if $int.substr(0,1) eq '-' { return "negative {cardinal-int($int.substr(1))}" }
     if $int == 0 { return @I[0] }
     my $m = 0;
@@ -121,8 +121,12 @@ sub cardinal-int (Int $int) {
                 if $c { take @C[$c] }
                 if $x and $x == 1 { take @I[$i+10] }
                 else {
-                    if $x { take @X[$x] }
-                    if $i { take @I[$i] }
+                    if $x and $i {
+                        take join '-', @X[$x], @I[$i];
+                    } else {
+                        if $x { take @X[$x] }
+                        if $i { take @I[$i] }
+                    }
                 }
                 take @M[$m] // fail "WOW! ZILLIONS!\n" if $m;
             }
