@@ -110,7 +110,7 @@ sub cardinal ($rat is copy, :$separator = ' ', :$common, :$improper ) is export 
     }
 }
 
-sub cardinal-int ($int) {
+sub cardinal-int (Int $int) {
     if $int.substr(0,1) eq '-' { return "negative {cardinal-int($int.substr(1))}" }
     if $int == 0 { return @I[0] }
     my $m = 0;
@@ -144,7 +144,7 @@ sub cardinal-year ($year where 0 < $year < 10000) is export {
     }
     my ($l, $h) = $year.flip.comb(/\d ** 1..2/).».flip;
     if $l < 10 {
-        return cardinal($h) ~ ' ought ' ~ cardinal($l);
+        return cardinal($h) ~ ' ought-' ~ cardinal($l);
     }
     return join ' ', cardinal($h), cardinal($l);
 }
