@@ -3,27 +3,35 @@ NAME
 Lingua::EN::Numbers::Cardinal
 
 SYNOPSIS
-Convert integer numbers to their cardinal representation.
+
+Convert numbers to their cardinal representation.
 
      use Lingua::EN::Numbers::Cardinal;
 
-     say cardinal(1776); # one thousand, seven hundred seventy six
-     say cardinal-year(1776) # seventeen-seventy-six
+     cardinal( $rational, :separator($str), :common($val), :improper );
+
+        $rational  <value; required, any rational or integer number>
+        :separator <value; optional, separator between numerator and denominator,
+                    defaults to ' '>
+        :common    <value; optional, integer denominator to use for
+                    representation, do not reduce to lowest terms>
+        :improper  <flag; optional, do not regularize improper fractions.>
+
+
+     cardinal-year( $year );
+
+        $year      <value; must be an integer between 99 and 10000>
 
 
 DESCRIPTION
 
 Returns cardinal representations of integers following the American
-English, short scale convention. The word "and" is only used to signify
-fractional portions of a number. Since cardinal does not (yet) support
-fractional numbers, "and" will not be inserted.
+English, short scale convention.
 
-See also L<https://en.wikipedia.org/wiki/Long_and_short_scales>
+See L<https://en.wikipedia.org/wiki/Long_and_short_scales>
 
-Exports subs cardinal() and cardinal-year().
-
-cardinal() converts an integer or something that can be converted to
-an integer to its cardinal representation.
+Exported sub cardinal() converts an rational or integer number or something
+that can be converted to one, to its cardinal representation.
 
 Recognizes integer numbers from:
 -9999999999999999999999999999999999999999999999999999999999999999999999999999
@@ -36,7 +44,7 @@ to
 99999999999999999999999999999999999999999999999999999999999999999999999999999
 999999999999999999999999999999999999999999999999999999999999999999999999999
 
-Thats 306 9s, negative through positive:
+Thats 306 9s, negative, through positive:
 nine hundred ninety nine centillion, nine hundred ninety nine
 novemnonagintillion, nine hundred ninety nine octononagintillion, nine hundred
 ninety nine septennonagintillion, nine hundred ninety nine sexnonagintillion,
@@ -98,22 +106,74 @@ quintillion, nine hundred ninety nine quadrillion, nine hundred ninety nine
 trillion, nine hundred ninety nine billion, nine hundred ninety nine million,
 nine hundred ninety nine thousand, nine hundred ninety nine
 
-Should cover most uses.
+When converting rational numbers, the word "and" is inserted between any whole
+number portion and the fractional portions of the number. If you have an "and"
+in the output, the input number had a fractional portion.
+
+By default, cardinal reduces fractions to their lowest terms. If you want to
+specify the denominator used to display, pass in an integer to the :commom
+option.
+It is probably best to specify a common that IS a common divisor for the
+denominator. cardinal() will work with any common, and will scale the numerator
+to match, but will round off the numerator to the nearest integer after scaling,
+so some error will creep in if common is NOT a common divisor with the
+denominator.
 
 cardinal-year() converts integers from 100 to 9999 to the common American
 English convention.
-2015 -> twenty-fifteen.
-1984 -> nineteen-eighty-four.
-Even millenniums are returned as thousands: 2000 -> two-thousand.
-Even centuries are returned as hundreds: 1900 -> nineteen-hundred.
-Years 1 .. 9 in each century are returned as oughts: 2001 -> twenty-ought-one.
 
+2015 -> twenty fifteen.
+1984 -> nineteen eighty four.
+Even millenniums are returned as thousands: 2000 -> two thousand.
+Even centuries are returned as hundreds: 1900 -> nineteen hundred.
+Years 1 .. 9 in each century are returned as oughts: 2001 -> twenty ought one.
+
+
+USAGE
+
+    use Lingua::EN::Numbers::Cardinal;
+
+
+    say cardinal(7/2);            # three and one half
+    say cardinal(7/2, :improper); # seven halves
+    say cardinal(15/4)            # three and three quarters
+    say cardinal(3.75)            # three and three quarters
+    say cardinal(15/4, :improper) # fifteen quarters
+    say cardinal(3/16);           # three sixteenths
+    say cardinal(144);            # one hundred forty four
+
+    say cardinal(1776);           # one thousand, seven hundred seventy six
+    say cardinal-year(1776)       # seventeen seventy six
+
+    say cardinal-year(1800)       # eighteen hundred
+    say cardinal-year(1905)       # nineteen ought five
+    say cardinal-year(2000)       # two thousand
+    say cardinal-year(2015)       # twenty fifteen
+
+    # Sometimes larger denominators make it difficult to discern where the
+    # numerator ends and the denominator begins. Change the separator to
+    # make it easier to tell.
+
+    say cardinal(97873/10000000);
+    # ninety seven thousand, eight hundred seventy three ten millionths
+
+    say cardinal(97873/10000000, :separator(' / '));
+    # ninety seven thousand, eight hundred seventy three / ten millionths
+
+
+    # If you want to use a certain denominator in the display and not reduce
+    # fractions, specify a common (denominator).
+
+    say cardinal(15/1000);                 # three two hundredths
+    say cardinal(15/1000, :common(1000));  # fifteen thousandths
+    # or
+    say cardinal(15/1000, common => 1000); # fifteen thousandths
 
 BUGS
 
-Expects integer numbers. If you feed it something other than an integer, do not
-expect sensible results. Does some cursory error trapping but the foot cannon
-is still loaded.
+Expects rational or integer numbers. If you feed it something else, it will try
+to coerce but be prepared for non-sensible results. Does some cursory error
+trapping and coercion but the foot cannon is still loaded.
 
 
 AUTHOR
