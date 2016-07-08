@@ -189,7 +189,7 @@ USAGE
 
     say ordinal(1);               # first
     say ordinal(2);               # second
-    say ordinal(124 );            # one hundred twenty-third
+    say ordinal(123);             # one hundred twenty-third
     say ordinal(1776);            # one thousand, seven hundred seventy-sixth
     say ordinal-digit(1776)       # 1776th
 
