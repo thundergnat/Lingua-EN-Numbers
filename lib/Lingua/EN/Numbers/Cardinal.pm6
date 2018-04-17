@@ -141,7 +141,6 @@ multi sub cardinal (Int $int) is export {
 multi sub cardinal (Num $num) is export {
     if $num < 0 { return "negative {cardinal(-$num)}" }
     die if $num ~~ Inf or $num ~~ NaN;
-    my $chars = $num.Num.chars;
     my ($mantissa, $exponent) = $num.fmt("%.14e").split('e')».Numeric;
     my ($whole, $fraction) = $mantissa.split('.');
     $whole.=Numeric;
