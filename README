@@ -4,7 +4,8 @@ Lingua::EN::Numbers
 
 SYNOPSIS
 
-Convert numbers to their cardinal or ordinal representation.
+Various number-string conversion utlity routines. Convert numbers to their cardinal
+or ordinal representation. Add commas to number.
 
      use Lingua::EN::Numbers;
 
@@ -26,6 +27,11 @@ Convert numbers to their cardinal or ordinal representation.
                     millennium. Default 'oh-'. Change to ' ought-' or some
                     other string if desired.
 
+     comma( $number )
+
+         $number   <value; an integer, rational, int-string, rat-string or
+                    numeric string>
+
      ordinal( $integer )
 
         $integer   <value; an integer or something that can be coerced to a
@@ -35,11 +41,6 @@ Convert numbers to their cardinal or ordinal representation.
 
          $integer   <value; an integer or something that can be coerced to a
                      sensible integer value>
-
-     comma( $number )
-
-         $number   <value; an integer, rational, int-string, rat-string or
-                    numeric string>
 
 
 DESCRIPTION
