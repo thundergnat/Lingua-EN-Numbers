@@ -1,15 +1,15 @@
 {
     "perl"        : "6.*",
-    "name"        : "Lingua::EN::Numbers::Cardinal",
-    "version"     : "2.3.0",
-    "description" : "Convert integer numbers to their cardinal or ordinal representation",
+    "name"        : "Lingua::EN::Numbers",
+    "version"     : "2.4.0",
+    "description" : "Various number-string conversion utilities",
     "authors"     : [ "Steve Schulze (thundergnat)" ],
     "provides"    : {
-        "Lingua::EN::Numbers::Cardinal" : "lib/Lingua/EN/Numbers/Cardinal.pm6"
+        "Lingua::EN::Numbers" : "lib/Lingua/EN/Numbers.pm6"
     },
     "depends"     : [],
     "source-type" : "git",
-    "source-url"  : "git://github.com/thundergnat/Lingua-EN-Numbers-Cardinal.git",
+    "source-url"  : "git://github.com/thundergnat/Lingua-EN-Numbers.git",
     "license"     : "Artistic-2.0",
     "tags"        : [ "Number", "Convert" ]
 }

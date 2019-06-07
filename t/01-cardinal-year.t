@@ -1,6 +1,6 @@
 use v6;
 use Test;
-use Lingua::EN::Numbers::Cardinal;
+use Lingua::EN::Numbers;
 
 plan 15;
 

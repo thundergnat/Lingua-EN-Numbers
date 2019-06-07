@@ -1,12 +1,12 @@
 NAME
 
-Lingua::EN::Numbers::Cardinal
+Lingua::EN::Numbers
 
 SYNOPSIS
 
 Convert numbers to their cardinal or ordinal representation.
 
-     use Lingua::EN::Numbers::Cardinal;
+     use Lingua::EN::Numbers;
 
      cardinal( $rational, :separator($str), :denominator($val), :improper );
 
@@ -194,7 +194,7 @@ For rationals, any digits after a decimal point are ignored.
 
 USAGE
 
-    use Lingua::EN::Numbers::Cardinal;
+    use Lingua::EN::Numbers;
 
 
     say cardinal(7/2);            # three and one half
