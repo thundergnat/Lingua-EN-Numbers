@@ -1,7 +1,7 @@
 
 use v6;
 
-unit module Cardinal:ver<2.2.0>:auth<github:thundergnat>;
+unit module Cardinal:ver<2.3.0>:auth<github:thundergnat>;
 
 # Arrays probably should be constants but constant arrays and pre-comp
 # don't get along very well right now.
@@ -205,4 +205,12 @@ sub ordinal-digit ($int is copy) is export {
         }
     }
     $s;
+}
+
+sub comma ($i where * ~~ Int|Rat|Str) {
+    fail "$i doesn't look like an Integer or Rational." unless +$i ~~ Numeric;
+    my $s = $i < 0 ?? '-' !! '';
+    my ($whole, $frac) = $i.split('.');
+    $frac = $frac.defined ?? ".$frac" !! '';
+    $s ~ $whole.abs.flip.comb(3).join(',').flip ~ $frac
 }
