@@ -207,7 +207,7 @@ sub ordinal-digit ($int is copy) is export {
     $s;
 }
 
-sub comma ($i where * ~~ Int|Rat|Str) {
+sub comma ($i where * ~~ Int|Rat|Str) is export {
     fail "$i doesn't look like an Integer or Rational." unless +$i ~~ Numeric;
     my $s = $i < 0 ?? '-' !! '';
     my ($whole, $frac) = $i.split('.');
