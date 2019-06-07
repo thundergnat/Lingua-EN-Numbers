@@ -36,6 +36,11 @@ Convert numbers to their cardinal or ordinal representation.
          $integer   <value; an integer or something that can be coerced to a
                      sensible integer value>
 
+     comma( $number )
+
+         $number   <value; an integer, rational, int-string, rat-string or
+                    numeric string>
+
 
 DESCRIPTION
 
@@ -180,6 +185,13 @@ ordinal-digit() takes an integer or something that can be coerced to an integer
 and returns the given value with the appropriate suffix appended to the number.
 1 -> 1st, 3 -> 3rd, 24 -> 24th etc.
 
+comma() will insert commas into a numeric string following the English
+convention. It will accept an Integer, Int-String, Rational, Rat-String or a
+numeric string that looks like an Integer or Rational. Any non-significant
+digits (leading or trailing zeros) are dropped. If you want to retain
+non-significant trailing zeros in a rational, pass the argument as a string.
+For rationals, any digits after a decimal point are ignored.
+
 USAGE
 
     use Lingua::EN::Numbers::Cardinal;
@@ -227,7 +239,12 @@ USAGE
     say ordinal(2);               # second
     say ordinal(123);             # one hundred twenty-third
     say ordinal(1776);            # one thousand, seven hundred seventy-sixth
-    say ordinal-digit(1776)       # 1776th
+    say ordinal-digit(1776);      # 1776th
+
+    say comma( 5.0e9.Int );       # 5,000,000,000
+    say comma( -123456 );         # -123,456
+    say comma( '7832.00' );       # 7,832.00
+    say comma(  7832.00 );        # 7,832
 
 BUGS
 
@@ -237,7 +254,7 @@ coercion but the foot cannon is still loaded.
 
 AUTHOR
 
-Original cardinal code by TimToady (Larry Wall)
+Original Integer cardinal code by TimToady (Larry Wall)
 See http://rosettacode.org/wiki/Number_names#Perl_6
 
 Other code by thundergnat (Steve Schulze)
