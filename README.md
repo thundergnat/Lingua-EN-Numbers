@@ -1,57 +1,49 @@
-NAME
+# Lingua::EN::Numbers
 
-Lingua::EN::Numbers
+## SYNOPSIS
 
-SYNOPSIS
+Various number-string conversion utility routines. Convert numbers to their
+cardinal or ordinal representation; add commas to numbers.
 
-Various number-string conversion utlity routines. Convert numbers to their cardinal
-or ordinal representation. Add commas to number.
-
-     use Lingua::EN::Numbers;
-
-     cardinal( $rational, :separator($str), :denominator($val), :improper );
-
-        $rational      <value; required, any rational or integer number>
-        :separator     <value; optional, separator between numerator and denominator,
-         or :sep        defaults to ' '>
-        :denominator   <value; optional, integer denominator to use for
-         or :den        representation, do not reduce to lowest terms>
-        :improper      <flag; optional, do not regularize improper fractions.>
-         or :im
-
-     cardinal-year( $year, :oh($str) );
-
-        $year      <value; must be an integer between 1 and 10000>
-
-        :oh        <value; optional, string to use for the "0" years after a
-                    millennium. Default 'oh-'. Change to ' ought-' or some
-                    other string if desired.
-
-     comma( $number )
-
-         $number   <value; an integer, rational, int-string, rat-string or
-                    numeric string>
-
-     ordinal( $integer )
-
-        $integer   <value; an integer or something that can be coerced to a
-                    sensible integer value>
-
-     ordinal-digit( $integer )
-
-         $integer   <value; an integer or something that can be coerced to a
-                     sensible integer value>
+Exports the subs:
+* [cardinal( )](#cardinal)
+* [cardinal-year( )](#cardinal-year)
+* [comma( )](#comma)
+* [ordinal( )](#ordinal)
+* [ordinal-digit( )](#ordinal-digit)
 
 
-DESCRIPTION
+## DESCRIPTION
 
-Returns cardinal  or ordinal representations of integers following the American
-English, short scale convention.
+### <a name="cardinal"></a>cardinal( )
 
-See L<https://en.wikipedia.org/wiki/Long_and_short_scales>
+Returns cardinal representations of integers following the American English,
+short scale convention.
 
-Exported sub cardinal() a number or something that can be converted to one, to
-its cardinal representation.
+See: https://en.wikipedia.org/wiki/Long_and_short_scales
+
+
+#### cardinal( $rational, :separator($str), :denominator($val), :improper );
+
+- **$rational**
+  * value; required, any rational or integer number
+
+
+- **:separator** or **:sep**
+  * value; optional, separator between numerator and denominator, defaults to
+    space.
+
+
+- **:denominator** or **:den**
+  * value; optional, integer denominator to use for representation, do not
+    reduce to lowest terms.
+
+
+- **:improper** or **:im**
+  * flag; optional, do not regularize improper fractions.
+
+Pass cardinal() a number or something that can be converted to one, to its
+cardinal representation.
 
 Recognizes integer numbers from:
 -9999999999999999999999999999999999999999999999999999999999999999999999999999
@@ -151,69 +143,139 @@ returns the ordinal exponent.
 
 E.G. cardinal(2.712e7) will return:
 
- 'two point seven one two times ten to the seventh'
+    two point seven one two times ten to the seventh
 
- if you want it to be treated like an integer or rational, coerce it to the
- appropriate type.
+If you want it to be treated like an integer or rational, coerce it to the
+appropriate type.
 
 cardinal(2.712e7.Int) to get:
 
-'twenty-seven million, one hundred twenty thousand'
+    twenty-seven million, one hundred twenty thousand
 
-cardinal(1.25e-3) returns 'one point two five times ten to the negative third'
+cardinal(1.25e-3) returns:
 
-cardinal(1.25e-3.Rat) returns 'one eight hundredth'
+    one point two five times ten to the negative third
+
+cardinal(1.25e-3.Rat) returns:
+
+    one eight hundredth
+
+----
+## <a name="cardinal-year"></a>cardinal-year( )
+
+Converts integers from 1 to 9999 to the common American English convention.
+
+#### cardinal-year( $year, :oh($str) );
+
+* **$year**
+  * value; must be an integer between 1 and 10000.
 
 
-cardinal-year() converts integers from 1 to 9999 to the common American
-English convention.
+* **:oh**
+  * value; optional, string to use for the "0" years after a millennium. Default
+    'oh-'. Change to ' ought-' or some other string if desired.
 
-2015 -> twenty fifteen.
-1984 -> nineteen eighty-four.
-Even millenniums are returned as thousands: 2000 -> two thousand.
-Even centuries are returned as hundreds: 1900 -> nineteen hundred.
-Years 1 .. 9 in each century are returned as ohs: 2001 -> twenty oh-one.
 
-That is configurable with the :oh parameter. Default is 'oh-'. Change to
+    2015 -> twenty fifteen.
+
+    1984 -> nineteen eighty-four.
+
+Even millenniums are returned as thousands:
+
+    2000 -> two thousand.
+
+Even centuries are returned as hundreds:
+
+    1900 -> nineteen hundred.
+
+Years 1 .. 9 in each century are returned as ohs:
+
+    2001 -> twenty oh-one.
+
+Configurable with the :oh parameter. Default is 'oh-'. Change to
 'ought-' if you prefer twenty ought-one, or something else if that is your
 preference.
 
-ordinal() takes an integer or something that can be coerced to an integer and
-returns a string similar cardinal() except it is "positional" rather than
+----
+
+## <a name="comma"></a>comma( )
+
+Insert commas into a numeric string following the English convention. Groups of
+three orders-of-magnitude for whole numbers, fractional portions are unaffected.
+
+#### comma( $number )
+  * **$number**
+    * value; an integer, rational, int-string, rat-string or numeric
+  string.
+
+
+Will accept an Integer, Int-String, Rational, Rat-String or a numeric string
+that looks like an Integer or Rational. Any non-significant leading zeros are
+dropped. Non-significant trailing zeros are dropped for numeric rationals. If
+you want to retain non-significant trailing zeros, pass the argument as a
+string.
+
+----
+## <a name="ordinal"></a>ordinal( )
+
+Takes an integer or something that can be coerced to an integer and returns a
+string similar to the cardinal() routine except it is "positional" rather than
 valuation. E.G. 'first' rather than 'one', 'eleventh' rather than 'eleven'.
 
-ordinal-digit() takes an integer or something that can be coerced to an integer
-and returns the given value with the appropriate suffix appended to the number.
-1 -> 1st, 3 -> 3rd, 24 -> 24th etc.
+#### ordinal( $integer )
+  * **$integer**
+    * value; an integer or something that can be coerced to a sensible integer
+      value.
 
-comma() will insert commas into a numeric string following the English
-convention. It will accept an Integer, Int-String, Rational, Rat-String or a
-numeric string that looks like an Integer or Rational. Any non-significant
-digits (leading or trailing zeros) are dropped. If you want to retain
-non-significant trailing zeros in a rational, pass the argument as a string.
-For rationals, any digits after a decimal point are ignored.
+----
+## <a name="ordinal-digit"></a>ordinal-digit( )
 
-USAGE
+Takes an integer or something that can be coerced to an integer and returns the
+given numeric value with the appropriate suffix appended to the number. 1 ->
+1st, 3 -> 3rd, 24 -> 24th etc.
+
+#### ordinal-digit( $integer, :u )
+
+* **$integer**
+  * value; an integer or something that can be coerced to a sensible integer
+    value.
+
+
+* **:u**
+  * boolean; enable Unicode superscript ordinal suffixes (ˢᵗ, ⁿᵈ, ʳᵈ, ᵗʰ). Default
+    false.
+
+----
+
+## USAGE
+
 
     use Lingua::EN::Numbers;
 
+    # Integers
+    say cardinal(42);             # forty-two
+    say cardinal('144');          # one hundred forty-four
+    say cardinal(76541);          # seventy-six thousand, five hundred forty-one
 
+    # Rationals
     say cardinal(7/2);            # three and one half
     say cardinal(7/2, :improper); # seven halves
     say cardinal(7/2, :im );      # seven halves
     say cardinal(15/4)            # three and three quarters
     say cardinal(3.75)            # three and three quarters
     say cardinal(15/4, :improper) # fifteen quarters
-    say cardinal(3/16);           # three sixteenths
-    say cardinal(144);            # one hundred forty-four
+    say cardinal('3/16');         # three sixteenths
 
-    say cardinal(1776);           # one thousand, seven hundred seventy-six
-    say cardinal-year(1776)       # seventeen seventy-six
-
+    # Years
     say cardinal-year(1800)       # eighteen hundred
     say cardinal-year(1905)       # nineteen oh-five
     say cardinal-year(2000)       # two thousand
     say cardinal-year(2015)       # twenty fifteen
+
+    # cardinal vs. cardinal-year
+    say cardinal(1776);           # one thousand, seven hundred seventy-six
+    say cardinal-year(1776)       # seventeen seventy-six
+
 
     # Sometimes larger denominators make it difficult to discern where the
     # numerator ends and the denominator begins. Change the separator to
@@ -236,30 +298,37 @@ USAGE
     # or
     say cardinal(15/1000, :den(1000) );         # fifteen thousandths
 
+    # Ordinals
     say ordinal(1);               # first
     say ordinal(2);               # second
     say ordinal(123);             # one hundred twenty-third
-    say ordinal(1776);            # one thousand, seven hundred seventy-sixth
-    say ordinal-digit(1776);      # 1776th
 
+    # Ordinal digit
+    say ordinal-digit(22);        # 22nd
+    say ordinal-digit(1776);      # 1776th
+    say ordinal-digit(331 :u);    # 331ˢᵗ
+
+    # Commas
     say comma( 5.0e9.Int );       # 5,000,000,000
     say comma( -123456 );         # -123,456
-    say comma( '7832.00' );       # 7,832.00
     say comma(  7832.00 );        # 7,832
+    say comma( '7832.00' );       # 7,832.00
 
-BUGS
+
+## BUGS
 
 Doesn't handle complex numbers. Does some cursory error trapping and
 coercion but the foot cannon is still loaded.
 
 
-AUTHOR
+## AUTHOR
 
-Original Integer cardinal code by TimToady (Larry Wall)
-See http://rosettacode.org/wiki/Number_names#Perl_6
+Original Integer cardinal code by TimToady (Larry Wall).
 
-Other code by thundergnat (Steve Schulze)
+See: http://rosettacode.org/wiki/Number_names#Perl_6
 
-LICENSE
+Other code by thundergnat (Steve Schulze).
+
+## LICENSE
 
 Licensed under The Artistic 2.0; see LICENSE.
