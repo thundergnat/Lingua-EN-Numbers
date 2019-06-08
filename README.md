@@ -42,7 +42,7 @@ See: https://en.wikipedia.org/wiki/Long_and_short_scales
 - **:improper** or **:im**
   * flag; optional, do not regularize improper fractions.
 
-Pass cardinal() a number or something that can be converted to one, to its
+Pass cardinal() a number or something that can be converted to one; returns its
 cardinal representation.
 
 Recognizes integer numbers from:
@@ -175,6 +175,8 @@ Converts integers from 1 to 9999 to the common American English convention.
   * value; optional, string to use for the "0" years after a millennium. Default
     'oh-'. Change to ' ought-' or some other string if desired.
 
+
+Follows the common American English convention for years:
 
     2015 -> twenty fifteen.
 
