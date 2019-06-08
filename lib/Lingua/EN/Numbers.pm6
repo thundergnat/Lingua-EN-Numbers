@@ -1,7 +1,7 @@
 
 use v6;
 
-unit module Cardinal:ver<2.3.0>:auth<github:thundergnat>;
+unit module Cardinal:ver<2.5.0>:auth<github:thundergnat>;
 
 # Arrays probably should be constants but constant arrays and pre-comp
 # don't get along very well right now.
@@ -189,19 +189,22 @@ sub ordinal ($int is copy) is export {
     $s;
 }
 
-sub ordinal-digit ($int is copy) is export {
+sub ordinal-digit ($int is copy, :$u = False ) is export {
+    my %s = $u
+      ?? (:nd<ⁿᵈ>, :st<ˢᵗ>, :rd<ʳᵈ>, :th<ᵗʰ>)
+      !! (:nd<nd>, :st<st>, :rd<rd>, :th<th>);
     $int .= Int;
     my $ten = $int.abs.chars > 2 ?? +$int.substr(*-2) !! +$int.abs;
     my $s = $int;
 
     if 10 < $ten < 14  {
-        $s ~= "th";
+        $s ~= %s<th>;
     } else {
         given $int.substr(*-1) {
-            when 1  { $s ~= "st" }
-            when 2  { $s ~= "nd" }
-            when 3  { $s ~= "rd" }
-            default { $s ~= "th" }
+            when 1  { $s ~= %s<st> }
+            when 2  { $s ~= %s<nd> }
+            when 3  { $s ~= %s<rd> }
+            default { $s ~= %s<th> }
         }
     }
     $s;
