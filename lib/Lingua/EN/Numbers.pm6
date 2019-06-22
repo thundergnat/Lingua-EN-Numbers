@@ -1,7 +1,7 @@
 
 use v6;
 
-unit module Cardinal:ver<2.5.0>:auth<github:thundergnat>;
+unit module Numbers:ver<2.5.1>:auth<github:thundergnat>;
 
 # Arrays probably should be constants but constant arrays and pre-comp
 # don't get along very well right now.
@@ -112,7 +112,7 @@ multi sub cardinal ($rat is copy, :sep(:$separator) = ' ', :den(:$denominator), 
     }
 }
 
-multi sub cardinal (Int $int) is export {
+multi sub cardinal (Int $int, *%) is export {
     if $int.substr(0,1) eq '-' { return "negative {cardinal($int.substr(1))}" }
     if $int == 0 { return @I[0] } # Bools dispatch as Ints.
     if $int == 1 { return @I[1] } # Handle them directly
@@ -138,7 +138,7 @@ multi sub cardinal (Int $int) is export {
     }
 }
 
-multi sub cardinal (Num $num) is export {
+multi sub cardinal (Num $num, *%) is export {
     if $num < 0 { return "negative {cardinal(-$num)}" }
     die if $num ~~ Inf or $num ~~ NaN;
     my ($mantissa, $exponent) = $num.fmt("%.14e").split('e')».Numeric;
