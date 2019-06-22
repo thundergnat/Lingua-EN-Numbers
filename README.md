@@ -23,27 +23,27 @@ short scale convention.
 See: https://en.wikipedia.org/wiki/Long_and_short_scales
 
 
-#### cardinal( $rational, :separator($str), :denominator($val), :improper );
+#### cardinal( $number, :separator($str), :denominator($val), :improper );
 
-- **$rational**
-  * value; required, any rational or integer number
+- **$number**
+  * value; required, any Real number (Rat, Int, or Num)
 
 
 - **:separator** or **:sep**
   * value; optional, separator between numerator and denominator, defaults to
-    space.
+    space. Ignored if a non Rat is passed in.
 
 
 - **:denominator** or **:den**
   * value; optional, integer denominator to use for representation, do not
-    reduce to lowest terms.
+    reduce to lowest terms. Ignored if a non Rat is passed in.
 
 
 - **:improper** or **:im**
   * flag; optional, do not regularize improper fractions.
 
 Pass cardinal() a number or something that can be converted to one; returns its
-cardinal representation.
+cardinal representation. Ignored if a non Rat is passed in.
 
 Recognizes integer numbers from:
 -9999999999999999999999999999999999999999999999999999999999999999999999999999
@@ -168,7 +168,8 @@ Converts integers from 1 to 9999 to the common American English convention.
 #### cardinal-year( $year, :oh($str) );
 
 * **$year**
-  * value; must be an integer between 1 and 10000.
+  * value; must be an integer between 1 and 10000 or something that can be
+    coerced to an integer between 1 and 10000.
 
 
 * **:oh**
