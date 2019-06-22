@@ -90,4 +90,13 @@ is(cardinal(-2.5+0i), 'negative two and one half', '-2.5+0i complex with out ima
 dies-ok({ cardinal(1+1i) }, '1+1i Dies on complex with imaginary part');
 dies-ok({ cardinal(1e309) }, '1e309 Dies on overflow');
 
+is(cardinal(42000, :im), 'forty-two thousand', 'Ignore non-sensible parameters');
+is(cardinal(42000, :den(4)), 'forty-two thousand', 'Ignore non-sensible parameters');
+is(cardinal(42000, :sep(' | ')), 'forty-two thousand', 'Ignore non-sensible parameters');
+
+is(cardinal(2.5e-2, :improper), 'two point five times ten to the negative second', 'Ignore non-sensible parameters');
+is(cardinal(2.5e-2, :denominator(4)), 'two point five times ten to the negative second', 'Ignore non-sensible parameters');
+is(cardinal(2.5e-2, :seperator(' | ')), 'two point five times ten to the negative second', 'Ignore non-sensible parameters');
+
+
 done-testing();
