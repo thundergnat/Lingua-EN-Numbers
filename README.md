@@ -40,10 +40,11 @@ See: https://en.wikipedia.org/wiki/Long_and_short_scales
 
 
 - **:improper** or **:im**
-  * flag; optional, do not regularize improper fractions.
+  * flag; optional, do not regularize improper fractions. Ignored if a non Rat
+    is passed in.
 
 Pass cardinal() a number or something that can be converted to one; returns its
-cardinal representation. Ignored if a non Rat is passed in.
+cardinal representation.
 
 Recognizes integer numbers from:
 -9999999999999999999999999999999999999999999999999999999999999999999999999999
