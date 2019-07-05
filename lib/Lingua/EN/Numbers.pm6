@@ -19,6 +19,11 @@ my @d = < zeroth first    second    third      fourth     fifth     sixth     se
           tenth  eleventh twelfth   thirteenth fourteenth fifteenth sixteenth seventeenth eighteenth nineteenth >;
 my @t = < ''     ''       twentieth thirtieth  fortieth   fiftieth  sixtieth  seventieth  eightieth  ninetieth >;
 
+my $COMMA = ', ';
+
+sub no-commas ($flag = True) is export { $COMMA = $flag ?? ' ' !! ', ' }
+
+sub term:<no-commas?> is export { $COMMA eq  ', ' ?? False !! True  }
 
 multi sub cardinal ($rat is copy, :sep(:$separator) = ' ', :den(:$denominator), :im(:$improper) ) is export {
     if $rat.substr(0,1) eq '-' {
@@ -117,7 +122,7 @@ multi sub cardinal (Int $int, *%) is export {
     if $int == 0 { return @I[0] } # Bools dispatch as Ints.
     if $int == 1 { return @I[1] } # Handle them directly
     my $m = 0;
-    return join ', ', reverse gather for $int.flip.comb(/\d ** 1..3/) {
+    return join $COMMA, reverse gather for $int.flip.comb(/\d ** 1..3/) {
         my ( $i, $x, $c ) = .comb».Int;
         if $i or $x or $c {
             take join ' ', gather {
