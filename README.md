@@ -3,14 +3,17 @@
 ## SYNOPSIS
 
 Various number-string conversion utility routines. Convert numbers to their
-cardinal or ordinal representation; add commas to numbers.
+cardinal or ordinal representation. Add commas to numeric strings.
 
-Exports the subs:
+Exports the Subs:
 * [cardinal( )](#cardinal)
 * [cardinal-year( )](#cardinal-year)
-* [comma( )](#comma)
 * [ordinal( )](#ordinal)
 * [ordinal-digit( )](#ordinal-digit)
+* [comma( )](#comma)
+
+and Flag:
+* [no-commas](#no-commas)
 
 
 ## DESCRIPTION
@@ -137,7 +140,7 @@ integer after scaling, so some error will creep in if denominator is NOT a
 common divisor with the denominator.
 
 
-Recognizes Nums up to about 1.79e308.
+Recognizes Nums up to about 1.79e308. (2¹⁰²⁴ - 1)
 
 When converting Nums, reads out the enumerated digits for the mantissa and
 returns the ordinal exponent.
@@ -201,25 +204,6 @@ Configurable with the :oh parameter. Default is 'oh-'. Change to
 preference.
 
 ----
-
-## <a name="comma"></a>comma( )
-
-Insert commas into a numeric string following the English convention. Groups of
-three orders-of-magnitude for whole numbers, fractional portions are unaffected.
-
-#### comma( $number )
-  * **$number**
-    * value; an integer, rational, int-string, rat-string or numeric
-  string.
-
-
-Will accept an Integer, Int-String, Rational, Rat-String or a numeric string
-that looks like an Integer or Rational. Any non-significant leading zeros are
-dropped. Non-significant trailing zeros are dropped for numeric rationals. If
-you want to retain non-significant trailing zeros, pass the argument as a
-string.
-
-----
 ## <a name="ordinal"></a>ordinal( )
 
 Takes an integer or something that can be coerced to an integer and returns a
@@ -248,6 +232,70 @@ given numeric value with the appropriate suffix appended to the number. 1 ->
 * **:u**
   * boolean; enable Unicode superscript ordinal suffixes (ˢᵗ, ⁿᵈ, ʳᵈ, ᵗʰ). Default
     false.
+
+----
+
+## <a name="comma"></a>comma( )
+
+Insert commas into a numeric string following the English convention. Groups of
+3-orders-of-magnitude for whole numbers, fractional portions are unaffected.
+
+#### comma( $number )
+  * **$number**
+    * value; an integer, rational, int-string, rat-string or numeric
+  string.
+
+
+Will accept an Integer, Int-String, Rational, Rat-String or a numeric string
+that looks like an Integer or Rational. Any non-significant leading zeros are
+dropped. Non-significant trailing zeros are dropped for numeric rationals. If
+you want to retain non-significant trailing zeros in Rats, pass the argument as a
+string.
+
+----
+## <a name="no-commas"></a>no-commas
+
+A global flag for the cardinal() and ordinal() routines that disables / enables
+returning commas between 3-order-of-magnitude groups.
+
+#### no-commas( $bool )
+  * **$bool**
+    * A truthy / falsey value to enable / disable inserting commas into spelled
+      out numeric strings.
+
+Takes a Boolean or any value that can be coerced to a Boolean as a flag to
+disable / enable inserting commas. No value is treated as True. E.G.
+
+    no-commas;
+
+is the same as
+
+    no-commas(True);
+
+to re-enable inserting commas:
+
+    no-commas(False);
+
+Disabled (False) by default. May be enabled and disabled as desired, even within
+a single block; the flag is global though, not lexical. If you disable commas
+deep within a block, it will affect all ordinal() and cardinal() calls
+afterwords, even in a different scope. If your script is part of a larger
+application, you may want to query the no-commas state and restore it after any
+modification.
+
+Query the no-commas flag state with:
+
+    my $state = no-commas?;
+
+Returns the current flag state as a Boolean: True - commas disabled, False -
+commas enabled. Does not modify the current state.
+
+Restore it with:
+
+    no-commas($state);
+
+NOTE: the comma() routine and no-comma flag have nothing to do with each other,
+do not interact, and serve completely different purposes.
 
 ----
 
@@ -312,7 +360,23 @@ given numeric value with the appropriate suffix appended to the number. 1 ->
     say ordinal-digit(1776);      # 1776th
     say ordinal-digit(331 :u);    # 331ˢᵗ
 
-    # Commas
+
+    # no-commas flag
+
+    # save state
+    my $state = no-commas?;
+
+    # disable commas
+    no-commas;
+
+    say cardinal(97873/10000000);
+    # ninety seven thousand eight hundred seventy-three ten millionths
+
+    # restore state
+    no-commas($state);
+
+
+    # Commas routine
     say comma( 5.0e9.Int );       # 5,000,000,000
     say comma( -123456 );         # -123,456
     say comma(  7832.00 );        # 7,832
