@@ -264,7 +264,7 @@ returning commas between 3-order-of-magnitude groups.
       out numeric strings.
 
 Takes a Boolean or any value that can be coerced to a Boolean as a flag to
-disable / enable inserting commas. No value is treated as True. E.G.
+disable / enable inserting commas. Absence of a value is treated as True. E.G.
 
     no-commas;
 
@@ -294,7 +294,7 @@ Restore it with:
 
     no-commas($state);
 
-NOTE: the comma() routine and no-comma flag have nothing to do with each other,
+NOTE: the comma() routine and no-commas flag have nothing to do with each other,
 do not interact, and serve completely different purposes.
 
 ----
