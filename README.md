@@ -1,5 +1,7 @@
 # Lingua::EN::Numbers
 
+[![Build Status](https://travis-ci.org/thundergnat/Lingua-EN-Numbers.svg?branch=master)](https://travis-ci.org/thundergnat/Lingua-EN-Numbers)
+
 ## SYNOPSIS
 
 Various number-string conversion utility routines. Convert numbers to their
