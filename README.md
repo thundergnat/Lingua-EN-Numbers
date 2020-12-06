@@ -1,187 +1,116 @@
-# Lingua::EN::Numbers
+NAME Lingua::EN::Numbers
+========================
 
 [![Build Status](https://travis-ci.org/thundergnat/Lingua-EN-Numbers.svg?branch=master)](https://travis-ci.org/thundergnat/Lingua-EN-Numbers)
 
-## SYNOPSIS
+DESCRIPTION
+===========
 
-Various number-string conversion utility routines. Convert numbers to their
-cardinal or ordinal representation. Add commas to numeric strings.
+Various number-string conversion utility routines.
+
+Convert numbers to their cardinal or ordinal representation.
+
+Several other numeric string "prettifying" routines.
 
 Exports the Subs:
-* [cardinal( )](#cardinal)
-* [cardinal-year( )](#cardinal-year)
-* [ordinal( )](#ordinal)
-* [ordinal-digit( )](#ordinal-digit)
-* [comma( )](#comma)
+
+  * [cardinal( )](#cardinal) - short: card()
+
+  * [cardinal-year( )](#cardinal-year) - short: card-y()
+
+  * [ordinal( )](#ordinal) - short: ord-n()
+
+  * [ordinal-digit( )](#ordinal-digit) - short: ord-y()
+
+  * [comma( )](#comma)
+
+  * [pretty-rat( )](#pretty-rat) - short: prat()
 
 and Flag:
-* [no-commas](#no-commas)
 
+  * [no-commas](#no-commas)
 
-## DESCRIPTION
+Short form routine names are only available if you specifically import them:
 
-### <a name="cardinal"></a>cardinal( )
+`use Lingua::EN::Numbers :short;`
 
-Returns cardinal representations of integers following the American English,
-short scale convention.
+<a name="cardinal"></a>cardinal( ) - short: card()
+--------------------------------------------------
+
+Returns cardinal representations of integers following the American English, short scale convention.
 
 See: https://en.wikipedia.org/wiki/Long_and_short_scales
 
+### cardinal( $number, :separator($str), :denominator($val), :improper );
 
-#### cardinal( $number, :separator($str), :denominator($val), :improper );
+  * $number
 
-- **$number**
-  * value; required, any Real number (Rat, Int, or Num)
+    * value; required, any Real number (Rat, Int, or Num)
 
+  * :separator or :sep
 
-- **:separator** or **:sep**
-  * value; optional, separator between numerator and denominator, defaults to
-    space. Ignored if a non Rat is passed in.
+    * value; optional, separator between numerator and denominator, defaults to space. Ignored if a non Rat is passed in.
 
+  * :denominator or :den
 
-- **:denominator** or **:den**
-  * value; optional, integer denominator to use for representation, do not
-    reduce to lowest terms. Ignored if a non Rat is passed in.
+    * value; optional, integer denominator to use for representation, do not reduce to lowest terms. Ignored if a non Rat is passed in.
 
+  * :improper or :im
 
-- **:improper** or **:im**
-  * flag; optional, do not regularize improper fractions. Ignored if a non Rat
-    is passed in.
+    * flag; optional, do not regularize improper fractions. Ignored if a non Rat is passed in.
 
-Pass cardinal() a number or something that can be converted to one; returns its
-cardinal representation.
+Pass cardinal() a number or something that can be converted to one; returns its cardinal representation.
 
-Recognizes integer numbers from:
--9999999999999999999999999999999999999999999999999999999999999999999999999999
-99999999999999999999999999999999999999999999999999999999999999999999999999999
-99999999999999999999999999999999999999999999999999999999999999999999999999999
-9999999999999999999999999999999999999999999999999999999999999999999999999999
-to
-99999999999999999999999999999999999999999999999999999999999999999999999999999
-99999999999999999999999999999999999999999999999999999999999999999999999999999
-99999999999999999999999999999999999999999999999999999999999999999999999999999
-999999999999999999999999999999999999999999999999999999999999999999999999999
+Recognizes integer numbers from: -9999999999999999999999999999999999999999999999999999999999999999999999999999 99999999999999999999999999999999999999999999999999999999999999999999999999999 99999999999999999999999999999999999999999999999999999999999999999999999999999 9999999999999999999999999999999999999999999999999999999999999999999999999999 to 99999999999999999999999999999999999999999999999999999999999999999999999999999 99999999999999999999999999999999999999999999999999999999999999999999999999999 99999999999999999999999999999999999999999999999999999999999999999999999999999 999999999999999999999999999999999999999999999999999999999999999999999999999
 
 Thats 306 9s, negative, through positive:
 
-nine hundred ninety-nine centillion, nine hundred ninety-nine
-novemnonagintillion, nine hundred ninety-nine octononagintillion, nine hundred
-ninety-nine septennonagintillion, nine hundred ninety-nine sexnonagintillion,
-nine hundred ninety-nine quinnonagintillion, nine hundred ninety-nine
-quattuornonagintillion, nine hundred ninety-nine trenonagintillion, nine hundred
-ninety-nine duononagintillion, nine hundred ninety-nine unnonagintillion, nine
-hundred ninety-nine nonagintillion, nine hundred ninety-nine
-novemoctogintillion, nine hundred ninety-nine octooctogintillion, nine hundred
-ninety-nine septenoctogintillion, nine hundred ninety-nine sexoctogintillion,
-nine hundred ninety-nine quinoctogintillion, nine hundred ninety-nine
-quattuoroctogintillion, nine hundred ninety-nine treoctogintillion, nine hundred
-ninety-nine duooctogintillion, nine hundred ninety-nine unoctogintillion, nine
-hundred ninety-nine octogintillion, nine hundred ninety-nine
-novemseptuagintillion, nine hundred ninety-nine octoseptuagintillion, nine
-hundred ninety-nine septenseptuagintillion, nine hundred ninety-nine
-sexseptuagintillion, nine hundred ninety-nine quinseptuagintillion, nine hundred
-ninety-nine quattuorseptuagintillion, nine hundred ninety-nine
-treseptuagintillion, nine hundred ninety-nine duoseptuagintillion, nine hundred
-ninety-nine unseptuagintillion, nine hundred ninety-nine septuagintillion, nine
-hundred ninety-nine novemsexagintillion, nine hundred ninety-nine
-octosexagintillion, nine hundred ninety-nine septensexagintillion, nine hundred
-ninety-nine sexsexagintillion, nine hundred ninety-nine quinsexagintillion, nine
-hundred ninety-nine quattuorsexagintillion, nine hundred ninety-nine
-tresexagintillion, nine hundred ninety-nine duosexagintillion, nine hundred
-ninety-nine unsexagintillion, nine hundred ninety-nine sexagintillion, nine
-hundred ninety-nine novemquinquagintillion, nine hundred ninety-nine
-octoquinquagintillion, nine hundred ninety-nine septenquinquagintillion, nine
-hundred ninety-nine sexquinquagintillion, nine hundred ninety-nine
-quinquinquagintillion, nine hundred ninety-nine quattuorquinquagintillion, nine
-hundred ninety-nine trequinquagintillion, nine hundred ninety-nine
-duoquinquagintillion, nine hundred ninety-nine unquinquagintillion, nine hundred
-ninety-nine quinquagintillion, nine hundred ninety-nine novemquadragintillion,
-nine hundred ninety-nine octoquadragintillion, nine hundred ninety-nine
-septenquadragintillion, nine hundred ninety-nine sexquadragintillion, nine
-hundred ninety-nine quinquadragintillion, nine hundred ninety-nine
-quattuorquadragintillion, nine hundred ninety-nine trequadragintillion, nine
-hundred ninety-nine duoquadragintillion, nine hundred ninety-nine
-unquadragintillion, nine hundred ninety-nine quadragintillion, nine hundred
-ninety-nine novemtrigintillion, nine hundred ninety-nine octotrigintillion, nine
-hundred ninety-nine septentrigintillion, nine hundred ninety-nine
-sextrigintillion, nine hundred ninety-nine quintrigintillion, nine hundred
-ninety-nine quattuortrigintillion, nine hundred ninety-nine tretrigintillion,
-nine hundred ninety-nine duotrigintillion, nine hundred ninety-nine
-untrigintillion, nine hundred ninety-nine trigintillion, nine hundred
-ninety-nine novemvigintillion, nine hundred ninety-nine octovigintillion, nine
-hundred ninety-nine septenvigintillion, nine hundred ninety-nine
-sexvigintillion, nine hundred ninety-nine quinvigintillion, nine hundred
-ninety-nine quattuorvigintillion, nine hundred ninety-nine trevigintillion, nine
-hundred ninety-nine duovigintillion, nine hundred ninety-nine unvigintillion,
-nine hundred ninety-nine vigintillion, nine hundred ninety-nine novemdecillion,
-nine hundred ninety-nine octodecillion, nine hundred ninety-nine
-septendecillion, nine hundred ninety-nine sexdecillion, nine hundred ninety-nine
-quindecillion, nine hundred ninety-nine quattuordecillion, nine hundred
-ninety-nine tredecillion, nine hundred ninety-nine duodecillion, nine hundred
-ninety-nine undecillion, nine hundred ninety-nine decillion, nine hundred
-ninety-nine nonillion, nine hundred ninety-nine octillion, nine hundred
-ninety-nine septillion, nine hundred ninety-nine sextillion, nine hundred
-ninety-nine quintillion, nine hundred ninety-nine quadrillion, nine hundred
-ninety-nine trillion, nine hundred ninety-nine billion, nine hundred ninety-nine
-million, nine hundred ninety-nine thousand, nine hundred ninety-nine
+nine hundred ninety-nine centillion, nine hundred ninety-nine novemnonagintillion, nine hundred ninety-nine octononagintillion, nine hundred ninety-nine septennonagintillion, nine hundred ninety-nine sexnonagintillion, nine hundred ninety-nine quinnonagintillion, nine hundred ninety-nine quattuornonagintillion, nine hundred ninety-nine trenonagintillion, nine hundred ninety-nine duononagintillion, nine hundred ninety-nine unnonagintillion, nine hundred ninety-nine nonagintillion, nine hundred ninety-nine novemoctogintillion, nine hundred ninety-nine octooctogintillion, nine hundred ninety-nine septenoctogintillion, nine hundred ninety-nine sexoctogintillion, nine hundred ninety-nine quinoctogintillion, nine hundred ninety-nine quattuoroctogintillion, nine hundred ninety-nine treoctogintillion, nine hundred ninety-nine duooctogintillion, nine hundred ninety-nine unoctogintillion, nine hundred ninety-nine octogintillion, nine hundred ninety-nine novemseptuagintillion, nine hundred ninety-nine octoseptuagintillion, nine hundred ninety-nine septenseptuagintillion, nine hundred ninety-nine sexseptuagintillion, nine hundred ninety-nine quinseptuagintillion, nine hundred ninety-nine quattuorseptuagintillion, nine hundred ninety-nine treseptuagintillion, nine hundred ninety-nine duoseptuagintillion, nine hundred ninety-nine unseptuagintillion, nine hundred ninety-nine septuagintillion, nine hundred ninety-nine novemsexagintillion, nine hundred ninety-nine octosexagintillion, nine hundred ninety-nine septensexagintillion, nine hundred ninety-nine sexsexagintillion, nine hundred ninety-nine quinsexagintillion, nine hundred ninety-nine quattuorsexagintillion, nine hundred ninety-nine tresexagintillion, nine hundred ninety-nine duosexagintillion, nine hundred ninety-nine unsexagintillion, nine hundred ninety-nine sexagintillion, nine hundred ninety-nine novemquinquagintillion, nine hundred ninety-nine octoquinquagintillion, nine hundred ninety-nine septenquinquagintillion, nine hundred ninety-nine sexquinquagintillion, nine hundred ninety-nine quinquinquagintillion, nine hundred ninety-nine quattuorquinquagintillion, nine hundred ninety-nine trequinquagintillion, nine hundred ninety-nine duoquinquagintillion, nine hundred ninety-nine unquinquagintillion, nine hundred ninety-nine quinquagintillion, nine hundred ninety-nine novemquadragintillion, nine hundred ninety-nine octoquadragintillion, nine hundred ninety-nine septenquadragintillion, nine hundred ninety-nine sexquadragintillion, nine hundred ninety-nine quinquadragintillion, nine hundred ninety-nine quattuorquadragintillion, nine hundred ninety-nine trequadragintillion, nine hundred ninety-nine duoquadragintillion, nine hundred ninety-nine unquadragintillion, nine hundred ninety-nine quadragintillion, nine hundred ninety-nine novemtrigintillion, nine hundred ninety-nine octotrigintillion, nine hundred ninety-nine septentrigintillion, nine hundred ninety-nine sextrigintillion, nine hundred ninety-nine quintrigintillion, nine hundred ninety-nine quattuortrigintillion, nine hundred ninety-nine tretrigintillion, nine hundred ninety-nine duotrigintillion, nine hundred ninety-nine untrigintillion, nine hundred ninety-nine trigintillion, nine hundred ninety-nine novemvigintillion, nine hundred ninety-nine octovigintillion, nine hundred ninety-nine septenvigintillion, nine hundred ninety-nine sexvigintillion, nine hundred ninety-nine quinvigintillion, nine hundred ninety-nine quattuorvigintillion, nine hundred ninety-nine trevigintillion, nine hundred ninety-nine duovigintillion, nine hundred ninety-nine unvigintillion, nine hundred ninety-nine vigintillion, nine hundred ninety-nine novemdecillion, nine hundred ninety-nine octodecillion, nine hundred ninety-nine septendecillion, nine hundred ninety-nine sexdecillion, nine hundred ninety-nine quindecillion, nine hundred ninety-nine quattuordecillion, nine hundred ninety-nine tredecillion, nine hundred ninety-nine duodecillion, nine hundred ninety-nine undecillion, nine hundred ninety-nine decillion, nine hundred ninety-nine nonillion, nine hundred ninety-nine octillion, nine hundred ninety-nine septillion, nine hundred ninety-nine sextillion, nine hundred ninety-nine quintillion, nine hundred ninety-nine quadrillion, nine hundred ninety-nine trillion, nine hundred ninety-nine billion, nine hundred ninety-nine million, nine hundred ninety-nine thousand, nine hundred ninety-nine
 
 Handles Rats limited to the integer limits for the numerator and denominator.
 
-When converting rational numbers, the word "and" is inserted between any whole
-number portion and the fractional portions of the number. If you have an "and"
-in the output, the input number had a fractional portion.
+When converting rational numbers, the word "and" is inserted between any whole number portion and the fractional portions of the number. If you have an "and" in the output, the input number had a fractional portion.
 
-By default, cardinal reduces fractions to their lowest terms. If you want to
-specify the denominator used to display, pass in an integer to the :denominator
-option.
+By default, cardinal reduces fractions to their lowest terms. If you want to specify the denominator used to display, pass in an integer to the :denominator option.
 
-It is probably best to specify a denominator that is a common divisor for
-the denominator. cardinal() will work with any integer denominator, and will
-scale the numerator to match, but will round off the numerator to the nearest
-integer after scaling, so some error will creep in if denominator is NOT a
-common divisor with the denominator.
-
+It is probably best to specify a denominator that is a common divisor for the denominator. cardinal() will work with any integer denominator, and will scale the numerator to match, but will round off the numerator to the nearest integer after scaling, so some error will creep in if denominator is NOT a common divisor with the denominator.
 
 Recognizes Nums up to about 1.79e308. (2¹⁰²⁴ - 1)
 
-When converting Nums, reads out the enumerated digits for the mantissa and
-returns the ordinal exponent.
+When converting Nums, reads out the enumerated digits for the mantissa and returns the ordinal exponent.
 
-E.G. cardinal(2.712e7) will return:
+E.G. `cardinal(2.712e7)` will return:
 
     two point seven one two times ten to the seventh
 
-If you want it to be treated like an integer or rational, coerce it to the
-appropriate type.
+If you want it to be treated like an integer or rational, coerce it to the appropriate type.
 
-cardinal(2.712e7.Int) to get:
+`cardinal(2.712e7.Int)` to get:
 
     twenty-seven million, one hundred twenty thousand
 
-cardinal(1.25e-3) returns:
+`cardinal(1.25e-3)` returns:
 
     one point two five times ten to the negative third
 
-cardinal(1.25e-3.Rat) returns:
+`cardinal(1.25e-3.Rat)` returns:
 
     one eight hundredth
 
-----
-## <a name="cardinal-year"></a>cardinal-year( )
+<a name="cardinal-year"></a>cardinal-year( ) - short: card-y()
+--------------------------------------------------------------
 
 Converts integers from 1 to 9999 to the common American English convention.
 
-#### cardinal-year( $year, :oh($str) );
+### cardinal-year( $year, :oh($str) );
 
-* **$year**
-  * value; must be an integer between 1 and 10000 or something that can be
-    coerced to an integer between 1 and 10000.
+  * $year
 
+    * value; must be an integer between 1 and 10000 or something that can be coerced to an integer between 1 and 10000.
 
-* **:oh**
-  * value; optional, string to use for the "0" years after a millennium. Default
-    'oh-'. Change to ' ought-' or some other string if desired.
+  * :oh
 
+    * value; optional, string to use for the "0" years after a millennium. Default 'oh-'. Change to ' ought-' or some other string if desired.
 
 Follows the common American English convention for years:
 
@@ -201,72 +130,72 @@ Years 1 .. 9 in each century are returned as ohs:
 
     2001 -> twenty oh-one.
 
-Configurable with the :oh parameter. Default is 'oh-'. Change to
-'ought-' if you prefer twenty ought-one, or something else if that is your
-preference.
+Configurable with the :oh parameter. Default is 'oh-'. Change to 'ought-' if you prefer twenty ought-one, or something else if that is your preference.
 
-----
-## <a name="ordinal"></a>ordinal( )
+<a name="ordinal"></a>ordinal( ) - short: ord-n()
+-------------------------------------------------
 
-Takes an integer or something that can be coerced to an integer and returns a
-string similar to the cardinal() routine except it is "positional" rather than
-valuation. E.G. 'first' rather than 'one', 'eleventh' rather than 'eleven'.
+Takes an integer or something that can be coerced to an integer and returns a string similar to the cardinal() routine except it is positional rather than valuation.
 
-#### ordinal( $integer )
-  * **$integer**
-    * value; an integer or something that can be coerced to a sensible integer
-      value.
+E.G. 'first' rather than 'one', 'eleventh' rather than 'eleven'.
 
-----
-## <a name="ordinal-digit"></a>ordinal-digit( )
+### ordinal( $integer )
 
-Takes an integer or something that can be coerced to an integer and returns the
-given numeric value with the appropriate suffix appended to the number. 1 ->
-1st, 3 -> 3rd, 24 -> 24th etc.
+  * $integer
 
-#### ordinal-digit( $integer, :u )
+    * value; an integer or something that can be coerced to a sensible integer value.
 
-* **$integer**
-  * value; an integer or something that can be coerced to a sensible integer
-    value.
+<a name="ordinal-digit"></a>ordinal-digit( ) - short: ord-d()
+-------------------------------------------------------------
 
+Takes an integer or something that can be coerced to an integer and returns the given numeric value with the appropriate suffix appended to the number. 1 -> 1st, 3 -> 3rd, 24 -> 24th etc.
 
-* **:u**
-  * boolean; enable Unicode superscript ordinal suffixes (ˢᵗ, ⁿᵈ, ʳᵈ, ᵗʰ). Default
-    false.
+### ordinal-digit( $integer, :u )
 
-----
+  * $integer
 
-## <a name="comma"></a>comma( )
+    * value; an integer or something that can be coerced to a sensible integer value.
 
-Insert commas into a numeric string following the English convention. Groups of
-3-orders-of-magnitude for whole numbers, fractional portions are unaffected.
+  * :u
 
-#### comma( $number )
-  * **$number**
-    * value; an integer, rational, int-string, rat-string or numeric
-  string.
+    * boolean; enable Unicode superscript ordinal suffixes (ˢᵗ, ⁿᵈ, ʳᵈ, ᵗʰ). Default false.
 
+<a name="comma"></a>comma( )
+----------------------------
 
-Will accept an Integer, Int-String, Rational, Rat-String or a numeric string
-that looks like an Integer or Rational. Any non-significant leading zeros are
-dropped. Non-significant trailing zeros are dropped for numeric rationals. If
-you want to retain non-significant trailing zeros in Rats, pass the argument as a
-string.
+Insert commas into a numeric string following the English convention. Groups of 3-orders-of-magnitude for whole numbers, fractional portions are unaffected.
 
-----
-## <a name="no-commas"></a>no-commas
+### comma( $number )
 
-A global flag for the cardinal() and ordinal() routines that disables / enables
-returning commas between 3-order-of-magnitude groups.
+  * $number
 
-#### no-commas( $bool )
-  * **$bool**
-    * A truthy / falsey value to enable / disable inserting commas into spelled
-      out numeric strings.
+    * value; an integer, rational, int-string, rat-string or numeric string.
 
-Takes a Boolean or any value that can be coerced to a Boolean as a flag to
-disable / enable inserting commas. Absence of a value is treated as True. E.G.
+Will accept an Integer, Int-String, Rational, Rat-String or a numeric string that looks like an Integer or Rational. Any non-significant leading zeros are dropped. Non-significant trailing zeros are dropped for numeric rationals. If you want to retain non-significant trailing zeros in Rats, pass the argument as a string.
+
+<a name="pretty-rat"></a> pretty-rat() - short: prat()
+------------------------------------------------------
+
+A "prettifying" routine to render rational numbers as a fraction. Rats that have a denominator of 1 will be rendered as integers.
+
+### pretty-rat($number)
+
+  * $number
+
+    * value; Any real number. Integers and Nums will be passed along unchanged; Rats will be converted to a fractional representation.
+
+<a name="no-commas"></a>no-commas
+---------------------------------
+
+A global flag for the cardinal() and ordinal() routines that disables / enables returning commas between 3-order-of-magnitude groups.
+
+### no-commas( $bool )
+
+  * $bool
+
+    * A truthy / falsey value to enable / disable inserting commas into spelled out numeric strings.
+
+Takes a Boolean or any value that can be coerced to a Boolean as a flag to disable / enable inserting commas. Absence of a value is treated as True. E.G.
 
     no-commas;
 
@@ -278,31 +207,24 @@ to re-enable inserting commas:
 
     no-commas(False);
 
-Disabled (False) by default. May be enabled and disabled as desired, even within
-a single block; the flag is global though, not lexical. If you disable commas
-deep within a block, it will affect all ordinal() and cardinal() calls
-afterwords, even in a different scope. If your script is part of a larger
-application, you may want to query the no-commas state and restore it after any
-modification.
+Disabled (False) by default. May be enabled and disabled as desired, even within a single block; the flag is global though, not lexical. If you disable commas deep within a block, it will affect all ordinal() and cardinal() calls afterwords, even in a different scope. If your script is part of a larger application, you may want to query the no-commas state and restore it after any modification.
 
 Query the no-commas flag state with:
 
     my $state = no-commas?;
 
-Returns the current flag state as a Boolean: True - commas disabled, False -
-commas enabled. Does not modify the current state.
+Returns the current flag state as a Boolean: True - commas disabled, False - commas enabled. Does not modify the current state.
 
 Restore it with:
 
     no-commas($state);
 
-NOTE: the comma() routine and no-commas flag have nothing to do with each other,
-do not interact, and serve completely different purposes.
+NOTE: the `comma()` routine and no-commas flag have nothing to do with each other, do not interact, and serve completely different purposes.
 
 ----
 
-## USAGE
-
+USAGE
+=====
 
     use Lingua::EN::Numbers;
 
@@ -362,6 +284,10 @@ do not interact, and serve completely different purposes.
     say ordinal-digit(1776);      # 1776th
     say ordinal-digit(331 :u);    # 331ˢᵗ
 
+    # Use pretty-rat() to print rational strings as fractions rather than
+    # as decimal numbers. Whole number fractions will be reduced to Ints.
+    say pretty-rat(1.375); # 11/8
+    say pretty-rat(8/2);   # 4
 
     # no-commas flag
 
@@ -384,21 +310,33 @@ do not interact, and serve completely different purposes.
     say comma(  7832.00 );        # 7,832
     say comma( '7832.00' );       # 7,832.00
 
+Or, import the short form routine names:
 
-## BUGS
+    use Lingua::EN::Numbers :short;
 
-Doesn't handle complex numbers. Does some cursory error trapping and
-coercion but the foot cannon is still loaded.
+    say card(42);    # forty-two
+    say card-y(2020) # twenty twenty
+    say ord-n(42);   # forty-second
+    say ord-d(42);   # 42nd
+    say card(.875)   # seven eights
+    say prat(.875);  # 7/8
 
+BUGS
+====
 
-## AUTHOR
+Doesn't handle complex numbers. Does some cursory error trapping and coercion but the foot cannon is still loaded.
+
+AUTHOR
+======
 
 Original Integer cardinal code by TimToady (Larry Wall).
 
-See: http://rosettacode.org/wiki/Number_names#Perl_6
+See: http://rosettacode.org/wiki/Number_names#Raku
 
 Other code by thundergnat (Steve Schulze).
 
-## LICENSE
+LICENSE
+=======
 
 Licensed under The Artistic 2.0; see LICENSE.
+
