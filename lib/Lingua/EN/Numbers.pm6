@@ -1,4 +1,4 @@
-unit module Numbers:ver<2.7.0>:auth<github:thundergnat>;
+unit module Numbers:ver<2.7.1>:auth<github:thundergnat>;
 
 # Arrays probably should be constants but constant arrays and pre-comp
 # don't get along very well right now.
@@ -240,20 +240,121 @@ Lingua::EN::Numbers
 
 [![Build Status](https://travis-ci.org/thundergnat/Lingua-EN-Numbers.svg?branch=master)](https://travis-ci.org/thundergnat/Lingua-EN-Numbers)
 
-=head1 DESCRIPTION
-
 Various number-string conversion utility routines.
 
 Convert numbers to their cardinal or ordinal representation.
 
 Several other numeric string "prettifying" routines.
 
+
+=head1 SYNOPSIS
+
+
+    use Lingua::EN::Numbers;
+
+    # Integers
+    say cardinal(42);             # forty-two
+    say cardinal('144');          # one hundred forty-four
+    say cardinal(76541);          # seventy-six thousand, five hundred forty-one
+
+    # Rationals
+    say cardinal(7/2);            # three and one half
+    say cardinal(7/2, :improper); # seven halves
+    say cardinal(7/2, :im );      # seven halves
+    say cardinal(15/4)            # three and three quarters
+    say cardinal(3.75)            # three and three quarters
+    say cardinal(15/4, :improper) # fifteen quarters
+    say cardinal('3/16');         # three sixteenths
+
+    # Years
+    say cardinal-year(1800)       # eighteen hundred
+    say cardinal-year(1905)       # nineteen oh-five
+    say cardinal-year(2000)       # two thousand
+    say cardinal-year(2015)       # twenty fifteen
+
+    # cardinal vs. cardinal-year
+    say cardinal(1776);           # one thousand, seven hundred seventy-six
+    say cardinal-year(1776)       # seventeen seventy-six
+
+
+    # Sometimes larger denominators make it difficult to discern where the
+    # numerator ends and the denominator begins. Change the separator to
+    # make it easier to tell.
+
+    say cardinal(97873/10000000);
+    # ninety seven thousand, eight hundred seventy-three ten millionths
+
+    say cardinal(97873/10000000, :separator(' / '));
+    # ninety seven thousand, eight hundred seventy-three / ten millionths
+
+
+    # If you want to use a certain denominator in the display and not reduce
+    # fractions, specify a common denominator.
+
+    say cardinal(15/1000);                      # three two hundredths
+    say cardinal(15/1000, :denominator(1000));  # fifteen thousandths
+    # or
+    say cardinal(15/1000, denominator => 1000); # fifteen thousandths
+    # or
+    say cardinal(15/1000, :den(1000) );         # fifteen thousandths
+
+    # Ordinals
+    say ordinal(1);               # first
+    say ordinal(2);               # second
+    say ordinal(123);             # one hundred twenty-third
+
+    # Ordinal digit
+    say ordinal-digit(22);        # 22nd
+    say ordinal-digit(1776);      # 1776th
+    say ordinal-digit(331 :u);    # 331ˢᵗ
+
+    # Use pretty-rat() to print rational strings as fractions rather than
+    # as decimal numbers. Whole number fractions will be reduced to Ints.
+    say pretty-rat(1.375); # 11/8
+    say pretty-rat(8/2);   # 4
+
+    # no-commas flag
+
+    # save state
+    my $state = no-commas?;
+
+    # disable commas
+    no-commas;
+
+    say cardinal(97873/10000000);
+    # ninety seven thousand eight hundred seventy-three ten millionths
+
+    # restore state
+    no-commas($state);
+
+
+    # Commas routine
+    say comma( 5.0e9.Int );       # 5,000,000,000
+    say comma( -123456 );         # -123,456
+    say comma(  7832.00 );        # 7,832
+    say comma( '7832.00' );       # 7,832.00
+
+Or, import the short form routine names:
+
+    use Lingua::EN::Numbers :short;
+
+    say card(42);    # forty-two
+    say card-y(2020) # twenty twenty
+    say ord-n(42);   # forty-second
+    say ord-d(42);   # 42nd
+    say card(.875)   # seven eights
+    say prat(.875);  # 7/8
+
+
+
+=head1 DESCRIPTION
+
 Exports the Subs:
 
 =item L<cardinal( )|#cardinal> - short: card()
 =item L<cardinal-year( )|#cardinal-year> - short: card-y()
 =item L<ordinal( )|#ordinal> - short: ord-n()
-=item L<ordinal-digit( )|#ordinal-digit> - short: ord-y()
+=item L<ordinal-digit( )|#ordinal-digit> - short: ord-d()
 =item L<comma( )|#comma>
 =item L<pretty-rat( )|#pretty-rat> - short: prat()
 
@@ -286,7 +387,7 @@ See: https://en.wikipedia.org/wiki/Long_and_short_scales
 =item1 :improper or :im
 =item2 flag; optional, do not regularize improper fractions. Ignored if a non Rat is passed in.
 
-Pass cardinal() a number or something that can be converted to one; returns its
+Pass C<cardinal()> a number or something that can be converted to one; returns its
 cardinal representation.
 
 Recognizes integer numbers from:
@@ -369,12 +470,12 @@ When converting rational numbers, the word "and" is inserted between any whole
 number portion and the fractional portions of the number. If you have an "and"
 in the output, the input number had a fractional portion.
 
-By default, cardinal reduces fractions to their lowest terms. If you want to
+By default, C<cardinal()> reduces fractions to their lowest terms. If you want to
 specify the denominator used to display, pass in an integer to the :denominator
 option.
 
 It is probably best to specify a denominator that is a common divisor for
-the denominator. cardinal() will work with any integer denominator, and will
+the denominator. C<cardinal()> will work with any integer denominator, and will
 scale the numerator to match, but will round off the numerator to the nearest
 integer after scaling, so some error will creep in if denominator is NOT a
 common divisor with the denominator.
@@ -497,7 +598,7 @@ a denominator of 1 will be rendered as integers.
 
 =head2 <a name="no-commas"></a>no-commas
 
-A global flag for the cardinal() and ordinal() routines that disables / enables
+A global flag for the C<cardinal()> and C<ordinal()> routines that disables / enables
 returning commas between 3-order-of-magnitude groups.
 
 =head3 no-commas( $bool )
@@ -520,9 +621,9 @@ to re-enable inserting commas:
 
 Disabled (False) by default. May be enabled and disabled as desired, even within
 a single block; the flag is global though, not lexical. If you disable commas
-deep within a block, it will affect all ordinal() and cardinal() calls
+deep within a block, it will affect all C<ordinal()> and C<cardinal()> calls
 afterwords, even in a different scope. If your script is part of a larger
-application, you may want to query the no-commas state and restore it after any
+application, you may want to query the C<no-commas> state and restore it after any
 modification.
 
 Query the no-commas flag state with:
@@ -536,110 +637,10 @@ Restore it with:
 
     no-commas($state);
 
-NOTE: the C<comma()> routine and no-commas flag have nothing to do with each other,
+NOTE: the C<comma()> routine and C<no-commas> flag have nothing to do with each other,
 do not interact, and serve completely different purposes.
 
 ----
-
-=head1 USAGE
-
-
-    use Lingua::EN::Numbers;
-
-    # Integers
-    say cardinal(42);             # forty-two
-    say cardinal('144');          # one hundred forty-four
-    say cardinal(76541);          # seventy-six thousand, five hundred forty-one
-
-    # Rationals
-    say cardinal(7/2);            # three and one half
-    say cardinal(7/2, :improper); # seven halves
-    say cardinal(7/2, :im );      # seven halves
-    say cardinal(15/4)            # three and three quarters
-    say cardinal(3.75)            # three and three quarters
-    say cardinal(15/4, :improper) # fifteen quarters
-    say cardinal('3/16');         # three sixteenths
-
-    # Years
-    say cardinal-year(1800)       # eighteen hundred
-    say cardinal-year(1905)       # nineteen oh-five
-    say cardinal-year(2000)       # two thousand
-    say cardinal-year(2015)       # twenty fifteen
-
-    # cardinal vs. cardinal-year
-    say cardinal(1776);           # one thousand, seven hundred seventy-six
-    say cardinal-year(1776)       # seventeen seventy-six
-
-
-    # Sometimes larger denominators make it difficult to discern where the
-    # numerator ends and the denominator begins. Change the separator to
-    # make it easier to tell.
-
-    say cardinal(97873/10000000);
-    # ninety seven thousand, eight hundred seventy-three ten millionths
-
-    say cardinal(97873/10000000, :separator(' / '));
-    # ninety seven thousand, eight hundred seventy-three / ten millionths
-
-
-    # If you want to use a certain denominator in the display and not reduce
-    # fractions, specify a common denominator.
-
-    say cardinal(15/1000);                      # three two hundredths
-    say cardinal(15/1000, :denominator(1000));  # fifteen thousandths
-    # or
-    say cardinal(15/1000, denominator => 1000); # fifteen thousandths
-    # or
-    say cardinal(15/1000, :den(1000) );         # fifteen thousandths
-
-    # Ordinals
-    say ordinal(1);               # first
-    say ordinal(2);               # second
-    say ordinal(123);             # one hundred twenty-third
-
-    # Ordinal digit
-    say ordinal-digit(22);        # 22nd
-    say ordinal-digit(1776);      # 1776th
-    say ordinal-digit(331 :u);    # 331ˢᵗ
-
-    # Use pretty-rat() to print rational strings as fractions rather than
-    # as decimal numbers. Whole number fractions will be reduced to Ints.
-    say pretty-rat(1.375); # 11/8
-    say pretty-rat(8/2);   # 4
-
-    # no-commas flag
-
-    # save state
-    my $state = no-commas?;
-
-    # disable commas
-    no-commas;
-
-    say cardinal(97873/10000000);
-    # ninety seven thousand eight hundred seventy-three ten millionths
-
-    # restore state
-    no-commas($state);
-
-
-    # Commas routine
-    say comma( 5.0e9.Int );       # 5,000,000,000
-    say comma( -123456 );         # -123,456
-    say comma(  7832.00 );        # 7,832
-    say comma( '7832.00' );       # 7,832.00
-
-Or, import the short form routine names:
-
-    use Lingua::EN::Numbers :short;
-
-    say card(42);    # forty-two
-    say card-y(2020) # twenty twenty
-    say ord-n(42);   # forty-second
-    say ord-d(42);   # 42nd
-    say card(.875)   # seven eights
-    say prat(.875);  # 7/8
-
-
 
 =head1 BUGS
 
