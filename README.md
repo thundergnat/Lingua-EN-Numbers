@@ -204,7 +204,7 @@ Converts integers from 1 to 9999 to the common American English convention.
 
   * $year
 
-    * value; must be an integer between 1 and 10000 or something that can be coerced to an integer between 1 and 10000.
+    * value; must be an integer between 1 and 9999 or something that can be coerced to an integer between 1 and 9999.
 
   * :oh
 
