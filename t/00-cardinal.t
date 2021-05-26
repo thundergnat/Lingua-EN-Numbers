@@ -72,6 +72,9 @@ is(cardinal('-35/12', :improper ), 'negative thirty-five twelfths', '-35/12 Stri
 is(cardinal('-35/12', :denominator(24) ), 'negative two and twenty-two twenty-fourths', '-35/12 String common');
 is(cardinal('-35/12', :denominator(24), :improper), 'negative seventy twenty-fourths', '-35/12 String common improper');
 
+# test for obscure prcedence bug
+is(cardinal(:sep(' / '), Rat.new(11113,4084080)), 'eleven thousand, one hundred thirteen / four million, eighty-four thousand eightieths', 'obscure precedence bug'),
+
 is(cardinal(2.5e-2), 'two point five times ten to the negative second', '2.5e-2 Num');
 is(cardinal(2.5e+2), 'two point five times ten to the second', '2.5e+2 Num');
 is(cardinal(-2.5e+2), 'negative two point five times ten to the second', '-2.5e+2Num');
