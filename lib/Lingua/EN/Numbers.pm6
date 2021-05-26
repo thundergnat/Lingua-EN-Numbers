@@ -64,8 +64,8 @@ multi sub cardinal ($rat is copy, :sep(:$separator) = ' ', :den(:$denominator), 
     } else { # special case even 'one' magnitude denominators
         my $cen = $denom.chars > 3 ?? $denom.substr(*-3) !! $denom;
         my $mil = $denom - $cen;
-        if ($mil.chars == 3 || ($mil.chars - 1) %% 3) && not +$cen
-         && +$mil.substr(0,1) == 1 && +$mil.substr(1) == 0 {
+        if ($mil.chars == 3 || ($mil.chars - 1) %% 3) && (not +$cen)
+         && (+$mil.substr(0,1) == 1) && (+$mil.substr(1) == 0) {
             # Drop the one for one thousandth, one millionth, etc
             $s ~= cardinal($mil).substr(4);
         } else {
