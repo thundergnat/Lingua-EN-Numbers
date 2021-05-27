@@ -1,4 +1,4 @@
-unit module Numbers:ver<2.7.1>:auth<github:thundergnat>;
+unit module Numbers:ver<2.7.2>:auth<github:thundergnat>;
 
 # Arrays probably should be constants but constant arrays and pre-comp
 # don't get along very well right now.
