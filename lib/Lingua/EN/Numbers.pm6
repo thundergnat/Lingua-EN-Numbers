@@ -1,4 +1,4 @@
-unit module Numbers:ver<2.7.2>:auth<github:thundergnat>;
+unit module Numbers:ver<2.8.0>:auth<github:thundergnat>;
 
 # Arrays probably should be constants but constant arrays and pre-comp
 # don't get along very well right now.
@@ -226,6 +226,8 @@ sub pretty-rat (Real $number) is export {
     $number.nude.join: '/';
 }
 
+sub super ($i) is export { $i.trans('+-0123456789()ei' => '⁺⁻⁰¹²³⁴⁵⁶⁷⁸⁹⁽⁾ᵉⁱ') }
+
 # Aliases
 our &prat   is export(:short) = &pretty-rat;
 our &ord-n  is export(:short) = &ordinal;
@@ -334,6 +336,11 @@ Several other numeric string "prettifying" routines.
     say comma(  7832.00 );        # 7,832
     say comma( '7832.00' );       # 7,832.00
 
+    # Super routine
+    say super('32');              # ³²
+    say super -47;                # ⁻⁴⁷
+
+
 Or, import the short form routine names:
 
     use Lingua::EN::Numbers :short;
@@ -357,6 +364,7 @@ Exports the Subs:
 =item L<ordinal-digit( )|#ordinal-digit> - short: ord-d()
 =item L<comma( )|#comma>
 =item L<pretty-rat( )|#pretty-rat> - short: prat()
+=item L<super( )|#super>
 
 and Flag:
 =item L<no-commas|#no-commas>
@@ -595,6 +603,33 @@ a denominator of 1 will be rendered as integers.
 
 =item1 $number
 =item2 value; Any real number. Integers and Nums will be passed along unchanged; Rats will be converted to a fractional representation.
+
+=head2 <a name="no-commas"></a>no-commas
+
+A global flag for the C<cardinal()> and C<ordinal()> routines that disables / enables
+returning commas between 3-order-of-magnitude groups.
+
+=head2 <a name="pretty-rat"></a> pretty-rat() - short: prat()
+
+A "prettifying" routine to render rational numbers as a fraction. Rats that have
+a denominator of 1 will be rendered as integers.
+
+=head2 <a name="super"></a> super()
+
+A "prettifying" routine to render numbers as Unicode superscripts. Mostly for
+formatting output strings. Not convieniently usable for a variable exponent.
+
+=head3 super($number)
+
+=item1 $number
+=item2 value; Any real integer or integer string.
+
+Note that a numeric of -0 will be superscripted to ⁰ since Raku treats numeric
+-0 and 0 as equivalent. If it is important to have the negative sign show up,
+pass the value as a string "-0".  Provides superscript versions of:
++-0123456789()ei . Technically, super will work with any numeric, but Unicode
+does not offer a superscript decimal point, so it is of limited use for
+rationals and scientific notation.
 
 =head2 <a name="no-commas"></a>no-commas
 
