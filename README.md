@@ -96,6 +96,10 @@ SYNOPSIS
     say comma(  7832.00 );        # 7,832
     say comma( '7832.00' );       # 7,832.00
 
+    # Super routine
+    say super('32');              # ³²
+    say super -47;                # ⁻⁴⁷
+
 Or, import the short form routine names:
 
     use Lingua::EN::Numbers :short;
@@ -123,6 +127,8 @@ Exports the Subs:
   * [comma( )](#comma)
 
   * [pretty-rat( )](#pretty-rat) - short: prat()
+
+  * [super( )](#super)
 
 and Flag:
 
@@ -281,6 +287,29 @@ A "prettifying" routine to render rational numbers as a fraction. Rats that have
   * $number
 
     * value; Any real number. Integers and Nums will be passed along unchanged; Rats will be converted to a fractional representation.
+
+<a name="no-commas"></a>no-commas
+---------------------------------
+
+A global flag for the `cardinal()` and `ordinal()` routines that disables / enables returning commas between 3-order-of-magnitude groups.
+
+<a name="pretty-rat"></a> pretty-rat() - short: prat()
+------------------------------------------------------
+
+A "prettifying" routine to render rational numbers as a fraction. Rats that have a denominator of 1 will be rendered as integers.
+
+<a name="super"></a> super()
+----------------------------
+
+A "prettifying" routine to render numbers as Unicode superscripts. Mostly for formatting output strings. Not convieniently usable for a variable exponent.
+
+### super($number)
+
+  * $number
+
+    * value; Any real integer or integer string.
+
+Note that a numeric of -0 will be superscripted to ⁰ since Raku treats numeric -0 and 0 as equivalent. If it is important to have the negative sign show up, pass the value as a string "-0". Provides superscript versions of: +-0123456789()ei . Technically, super will work with any numeric, but Unicode does not offer a superscript decimal point, so it is of limited use for rationals and scientific notation.
 
 <a name="no-commas"></a>no-commas
 ---------------------------------
