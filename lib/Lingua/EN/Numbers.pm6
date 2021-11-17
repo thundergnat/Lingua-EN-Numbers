@@ -1,4 +1,4 @@
-unit module Numbers:ver<2.8.0>:auth<github:thundergnat>;
+unit module Numbers:ver<2.8.1>:auth<github:thundergnat>;
 
 # Arrays probably should be constants but constant arrays and pre-comp
 # don't get along very well right now.
@@ -226,7 +226,7 @@ sub pretty-rat (Real $number) is export {
     $number.nude.join: '/';
 }
 
-sub super ($i) is export { $i.trans('+-0123456789()ei' => '⁺⁻⁰¹²³⁴⁵⁶⁷⁸⁹⁽⁾ᵉⁱ') }
+sub super ($i) is export { $i.trans(['+','-','0','1','2','3','4','5','6','7','8','9','(',')','e','i'] => ['⁺','⁻','⁰','¹','²','³','⁴','⁵','⁶','⁷','⁸','⁹','⁽','⁾','ᵉ','ⁱ']) }
 
 # Aliases
 our &prat   is export(:short) = &pretty-rat;
