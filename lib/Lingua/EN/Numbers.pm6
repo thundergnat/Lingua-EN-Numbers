@@ -1,4 +1,4 @@
-unit module Numbers:ver<2.8.1>:auth<github:thundergnat>;
+unit module Numbers:ver<2.8.2>:auth<github:thundergnat>;
 
 # Arrays probably should be constants but constant arrays and pre-comp
 # don't get along very well right now.
@@ -191,13 +191,14 @@ sub ordinal ($int is copy) is export {
     $s;
 }
 
-sub ordinal-digit ($int is copy, :$u = False ) is export {
+sub ordinal-digit ($int is copy, :$u = False, :$c = False) is export {
     my %s = $u
       ?? (:nd<ⁿᵈ>, :st<ˢᵗ>, :rd<ʳᵈ>, :th<ᵗʰ>)
       !! (:nd<nd>, :st<st>, :rd<rd>, :th<th>);
     $int .= Int;
     my $ten = $int.abs.chars > 2 ?? +$int.substr(*-2) !! +$int.abs;
     my $s = $int;
+    $s = comma $int if $c;
 
     if 10 < $ten < 14  {
         $s ~= %s<th>;
@@ -240,7 +241,7 @@ our &card-y is export(:short) = &cardinal-year;
 =head1 NAME
 Lingua::EN::Numbers
 
-[![Build Status](https://travis-ci.org/thundergnat/Lingua-EN-Numbers.svg?branch=master)](https://travis-ci.org/thundergnat/Lingua-EN-Numbers)
+[![test](https://github.com/thundergnat/Lingua-EN-Numbers/actions/workflows/test.yml/badge.svg)](https://github.com/thundergnat/Lingua-EN-Numbers/actions/workflows/test.yml)
 
 Various number-string conversion utility routines.
 
@@ -309,6 +310,7 @@ Several other numeric string "prettifying" routines.
     say ordinal-digit(22);        # 22nd
     say ordinal-digit(1776);      # 1776th
     say ordinal-digit(331 :u);    # 331ˢᵗ
+    say ordinal-digit(12343 :c);  # 12,343rd
 
     # Use pretty-rat() to print rational strings as fractions rather than
     # as decimal numbers. Whole number fractions will be reduced to Ints.
@@ -569,13 +571,16 @@ Takes an integer or something that can be coerced to an integer and returns the
 given numeric value with the appropriate suffix appended to the number. 1 ->
 1st, 3 -> 3rd, 24 -> 24th etc.
 
-=head3 ordinal-digit( $integer, :u )
+=head3 ordinal-digit( $integer, :u, :c )
 
 =item1 $integer
 =item2 value; an integer or something that can be coerced to a sensible integer value.
 
 =item1 :u
 =item2 boolean; enable Unicode superscript ordinal suffixes (ˢᵗ, ⁿᵈ, ʳᵈ, ᵗʰ). Default false.
+
+=item1 :c
+=item2 boolean; add commas to the ordinal number. Default false.
 
 =head2 <a name="comma"></a>comma( )
 
