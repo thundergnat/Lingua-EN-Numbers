@@ -1,7 +1,7 @@
 NAME Lingua::EN::Numbers
 ========================
 
-[![Build Status](https://travis-ci.org/thundergnat/Lingua-EN-Numbers.svg?branch=master)](https://travis-ci.org/thundergnat/Lingua-EN-Numbers)
+[![test](https://github.com/thundergnat/Lingua-EN-Numbers/actions/workflows/test.yml/badge.svg)](https://github.com/thundergnat/Lingua-EN-Numbers/actions/workflows/test.yml)
 
 Various number-string conversion utility routines.
 
@@ -69,6 +69,7 @@ SYNOPSIS
     say ordinal-digit(22);        # 22nd
     say ordinal-digit(1776);      # 1776th
     say ordinal-digit(331 :u);    # 331ˢᵗ
+    say ordinal-digit(12343 :c);  # 12,343rd
 
     # Use pretty-rat() to print rational strings as fractions rather than
     # as decimal numbers. Whole number fractions will be reduced to Ints.
@@ -254,7 +255,7 @@ E.G. 'first' rather than 'one', 'eleventh' rather than 'eleven'.
 
 Takes an integer or something that can be coerced to an integer and returns the given numeric value with the appropriate suffix appended to the number. 1 -> 1st, 3 -> 3rd, 24 -> 24th etc.
 
-### ordinal-digit( $integer, :u )
+### ordinal-digit( $integer, :u, :c )
 
   * $integer
 
@@ -263,6 +264,10 @@ Takes an integer or something that can be coerced to an integer and returns the 
   * :u
 
     * boolean; enable Unicode superscript ordinal suffixes (ˢᵗ, ⁿᵈ, ʳᵈ, ᵗʰ). Default false.
+
+  * :c
+
+    * boolean; add commas to the ordinal number. Default false.
 
 <a name="comma"></a>comma( )
 ----------------------------
