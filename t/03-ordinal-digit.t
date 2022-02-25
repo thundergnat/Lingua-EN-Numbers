@@ -146,4 +146,9 @@ is ordinal-digit(-50, :u), "-50ᵗʰ", "-50 is -50ᵗʰ";
 is ordinal-digit(-90, :u), "-90ᵗʰ", "-90 is -90ᵗʰ";
 is ordinal-digit(-123, :u), "-123ʳᵈ", "-123 is -123ʳᵈ";
 
+is ordinal-digit(12333, :c), "12,333rd", "12333 is 12,333rd";
+is ordinal-digit(12333, :c, :u), "12,333ʳᵈ", "12333 is 12,333ʳᵈ";
+is ordinal-digit(-12333, :c), "-12,333rd", "-12333 is 12,333rd";
+is ordinal-digit(-12333, :c, :u), "-12,333ʳᵈ", "-12333 is 12,333ʳᵈ";
+
 done-testing;
