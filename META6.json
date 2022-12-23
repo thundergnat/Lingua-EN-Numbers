@@ -1,15 +1,30 @@
 {
-    "perl"        : "6.*",
-    "name"        : "Lingua::EN::Numbers",
-    "version"     : "2.8.2",
-    "description" : "Various number-string conversion utilities",
-    "authors"     : [ "Steve Schulze (thundergnat)" ],
-    "provides"    : {
-        "Lingua::EN::Numbers" : "lib/Lingua/EN/Numbers.pm6"
-    },
-    "depends"     : [],
-    "source-type" : "git",
-    "source-url"  : "git://github.com/thundergnat/Lingua-EN-Numbers.git",
-    "license"     : "Artistic-2.0",
-    "tags"        : [ "Number", "Convert", "Cardinal", "Ordinal", "Commas" ]
+  "auth": "zef:thundergnat",
+  "authors": [
+    "Steve Schulze (thundergnat)"
+  ],
+  "build-depends": [
+  ],
+  "depends": [
+  ],
+  "description": "Various number-string conversion utilities",
+  "license": "Artistic-2.0",
+  "name": "Lingua::EN::Numbers",
+  "perl": "6.*",
+  "provides": {
+    "Lingua::EN::Numbers": "lib/Lingua/EN/Numbers.pm6"
+  },
+  "resources": [
+  ],
+  "source-url": "git://github.com/thundergnat/Lingua-EN-Numbers.git",
+  "tags": [
+    "Number",
+    "Convert",
+    "Cardinal",
+    "Ordinal",
+    "Commas"
+  ],
+  "test-depends": [
+  ],
+  "version": "2.8.3"
 }
