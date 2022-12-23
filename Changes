@@ -1,4 +1,6 @@
 Revision history for Lingua-EN-Numbers
 
+{{$NEXT}}
 
-2022-12-13  2.8.3 - Migrate to the zef ecosystem
+2.8.3  2022-12-23T12:29:53-05:00
+ - Migrate to the zef ecosystem
